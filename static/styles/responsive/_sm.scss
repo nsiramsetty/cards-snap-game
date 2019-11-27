@@ -1,0 +1,40 @@
+@import "../variables";
+/* Small devices (landscape phones, 544px and up) */
+
+@media (min-width: 576px) {
+
+  body {
+  }
+
+  .menu-large .dropdown-menu .container, .menu-user .dropdown-menu {
+    border-bottom: 6pt solid $brand-black-custom;
+    border-right: 1px solid $brand-black-custom;
+    border-left: 1px solid $brand-black-custom;
+  }
+  .navbar-dark .navbar-nav .nav-link {
+    color: $brand-white;
+    padding: 14pt 14pt;
+    border: none
+  }
+  .navbar-dark.corporate .navbar-nav .nav-link {
+    padding: 19pt 6pt 18pt 6pt;
+
+  }
+  .menu-large .dropdown-menu img.img-fluid {
+    display: block;
+  }
+  .menu-large .dropdown-menu .no-header {
+    padding-top: 32pt
+  }
+  .menu-large .dropdown-menu .container {
+    padding: 12pt 24pt;
+  }
+  .user-control .dropdown-menu {
+    left: auto;
+    right: -1px;
+  }
+
+  .dropdown-menu.dropdown-menu-large{
+    min-width: 420px;
+  }
+}

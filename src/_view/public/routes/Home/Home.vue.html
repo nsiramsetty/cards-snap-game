@@ -1,0 +1,82 @@
+<section class="home"
+         xmlns:v-bind="http://www.w3.org/1999/xhtml"
+>
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="card card-dark-grey">
+        <div class="card-header">
+          <span class="pull-left"><i class="fa fa-filter"></i></span>Filter
+        </div>
+        <div class="card-body">
+          <div class="row" >
+            <div class="col-6" v-for="(key,value) in filters">
+              <div class="form-group">
+                <label for="category">{{value}}</label>
+                <select name="title" class="form-control" id="category" v-model="filters[value]">
+                  <option value="">-- All --</option>
+                  <option v-for="filter in getListOfDropDownItems(value)" v-bind:value="filter">{{filter}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <hr/>
+          <div class="row">
+            <div class="col-12">
+              <label>Value</label>
+              <vue-range-slider class="mt-5" v-model="rangeFilters['Value'].value" :min="rangeFilters['Value'].min" :max="rangeFilters['Value'].max" :enable-cross="false"></vue-range-slider>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 text-right">
+              <button @click="resetFilters()" class="btn mt-4 btn-sm btn-primary">Reset All</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr/>
+      <div class="footer mt-4">
+        <p class="small text-center" >
+          Designed & Developed By Naresh Siramsetty
+          <br>
+          Version : {{buildno}}
+        </p>
+      </div>
+    </div>
+    <div class="col-12 col-md-8" >
+      <div class="card card-light-grey">
+        <div class="card-header">
+          <span class="pull-left"><i class="fa fa-list"></i></span>{{filteredFeatures.length}} Records
+        </div>
+      </div>
+      <div id="map-container">
+        <MglMap :accessToken="accessToken"
+                :center="center"
+                :mapStyle.sync="mapStyle"
+                :zoom="zoom"
+                container="map-container">
+          <MglAttributionControl></MglAttributionControl>
+          <MglNavigationControl position="bottom-left"></MglNavigationControl>
+          <MglGeolocateControl position="top-right"></MglGeolocateControl>
+          <MglScaleControl></MglScaleControl>
+          <MglMarker :color="feature.properties.color" :coordinates="feature.geometry.coordinates"
+                     :key="feature.properties.id" v-for="feature in filteredFeatures">
+            <MglPopup>
+              <div class="card mt-2">
+                <div class="card-header">
+                  <i class="fa fa-info-circle"></i> Information
+                </div>
+                <div class="card-body">
+                  <strong>ID : {{feature.properties.id}}<br>
+                    Title : {{feature.properties.project.Title}}<br>
+                    Address : {{feature.properties.project.Address}}<br>
+                    Value : {{feature.properties.project.Value}}<br>
+                  </strong>
+                </div>
+              </div>
+            </MglPopup>
+          </MglMarker>
+        </MglMap>
+      </div>
+    </div>
+  </div>
+</section>
