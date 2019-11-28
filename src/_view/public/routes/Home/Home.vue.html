@@ -1,82 +1,122 @@
-<section class="home"
-         xmlns:v-bind="http://www.w3.org/1999/xhtml"
->
-  <div class="row">
-    <div class="col-12 col-md-4">
-      <div class="card card-dark-grey">
-        <div class="card-header">
-          <span class="pull-left"><i class="fa fa-filter"></i></span>Filter
-        </div>
-        <div class="card-body">
-          <div class="row" >
-            <div class="col-6" v-for="(key,value) in filters">
-              <div class="form-group">
-                <label for="category">{{value}}</label>
-                <select name="title" class="form-control" id="category" v-model="filters[value]">
-                  <option value="">-- All --</option>
-                  <option v-for="filter in getListOfDropDownItems(value)" v-bind:value="filter">{{filter}}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <hr/>
-          <div class="row">
-            <div class="col-12">
-              <label>Value</label>
-              <vue-range-slider class="mt-5" v-model="rangeFilters['Value'].value" :min="rangeFilters['Value'].min" :max="rangeFilters['Value'].max" :enable-cross="false"></vue-range-slider>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 text-right">
-              <button @click="resetFilters()" class="btn mt-4 btn-sm btn-primary">Reset All</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <hr/>
-      <div class="footer mt-4">
-        <p class="small text-center" >
-          Designed & Developed By Naresh Siramsetty
-          <br>
-          Version : {{buildno}}
-        </p>
+<section class="home">
+  <div v-if="alert" class="row">
+    <div class="col-12">
+      <div class="alert" :class="alert.class">
+        <h2 class="alert-heading">
+          {{alert.text}}
+        </h2>
       </div>
     </div>
-    <div class="col-12 col-md-8" >
-      <div class="card card-light-grey">
-        <div class="card-header">
-          <span class="pull-left"><i class="fa fa-list"></i></span>{{filteredFeatures.length}} Records
+  </div>
+  <div v-if="!isGameInProgress" class="row">
+    <div class="col-12">
+      <div class="alert alert-warning">
+        <h2 class="alert-heading">Instructions</h2>
+        <ul>
+          <li>Default Reaction time for Computer to React in other times (Except when there is a match and time to call
+            SNAP ) is 2 seconds,
+            This 2 seconds reaction time is only when it is computer's turn to place the card, not the reaction time
+            when there is a snap.
+          </li>
+          <li>You can configure the Reaction Time for Computer when its time to call SNAP. Th</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div v-if="isGameInProgress" class="row">
+    <div class="col-md-4 text-left mt-2">
+      <div class="card-holder-player">
+        <img class="card-image-player" :class="isPlayersTurn ? 'pointer' :''" src="/static/images/cards/hidden.jpg"
+             @click="drawPlayerCard()" style="z-index: 200" :style="{ left : (2*(playerCards.length)+1) +'px'}"/>
+        <template v-if="playerCards.length > 1">
+          <img v-for="card in playerCards.length-1" class="card-image-player" src="/static/images/cards/empty.jpg"
+               :style="{ left : 2*card +'px'}">
+        </template>
+      </div>
+      <template v-if="isPlayersTurn">
+        <div class="row mb-2 mt-2">
+          <div class="col-12">
+            <i class="fa fa-lg fa-arrow-circle-up bounce"></i>
+          </div>
         </div>
+        <div class="row">
+          <div class="col-12 hide">
+            <div class="badge badge-sm badge-success">
+              Player's Turn
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+    <div class="col-md-4 text-center mt-2 ">
+      <div class="card-holder-deck">
+        <img v-if="playingCards[0]" class="card-image-deck" :class="isSnapTime ? 'pointer' :''" :src="getImageSrc(playingCards[0])" style="z-index: 200"
+             @click="doPlayerSnap()" :style="{ left : (2*(playingCards.length+1) + 20) +'px'}"/>
+        <img v-if="playingCards[1]" class="card-image-deck" :src="getImageSrc(playingCards[1])" style="z-index: 100"
+             :style="{ left : (2*(playingCards.length+1)) +'px'}"/>
+        <template v-if="playingCards.length > 2">
+          <img v-for="card in playingCards.length-2" class="card-image-deck" src="/static/images/cards/empty.jpg"
+          :style="{ left : 2*card +'px'}">
+        </template>
       </div>
-      <div id="map-container">
-        <MglMap :accessToken="accessToken"
-                :center="center"
-                :mapStyle.sync="mapStyle"
-                :zoom="zoom"
-                container="map-container">
-          <MglAttributionControl></MglAttributionControl>
-          <MglNavigationControl position="bottom-left"></MglNavigationControl>
-          <MglGeolocateControl position="top-right"></MglGeolocateControl>
-          <MglScaleControl></MglScaleControl>
-          <MglMarker :color="feature.properties.color" :coordinates="feature.geometry.coordinates"
-                     :key="feature.properties.id" v-for="feature in filteredFeatures">
-            <MglPopup>
-              <div class="card mt-2">
-                <div class="card-header">
-                  <i class="fa fa-info-circle"></i> Information
-                </div>
-                <div class="card-body">
-                  <strong>ID : {{feature.properties.id}}<br>
-                    Title : {{feature.properties.project.Title}}<br>
-                    Address : {{feature.properties.project.Address}}<br>
-                    Value : {{feature.properties.project.Value}}<br>
-                  </strong>
-                </div>
-              </div>
-            </MglPopup>
-          </MglMarker>
-        </MglMap>
+      <template v-if="isSnapTime">
+        <div class="row mb-2 mt-2">
+          <div class="col-12">
+            <i class="fa fa-lg fa-arrow-circle-up"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="badge badge-sm badge-success">
+              Its Snap Time, Hurry Up !!
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+    <div class="col-md-4 text-left mt-2 ">
+      <div class="card-holder-player">
+        <img class="card-image-player" :class="isComputersTurn ? 'pointer' :''" src="/static/images/cards/hidden.jpg"
+             style="z-index: 200" :style="{ left : (2*(computerCards.length)+1) +'px'}"/>
+        <template v-if="computerCards.length > 1">
+          <img v-for="card in computerCards.length-1" class="card-image-player" src="/static/images/cards/empty.jpg"
+               :style="{ left : 2*card +'px'}">
+        </template>
       </div>
+      <template v-if="isComputersTurn">
+        <div class="row mb-2 mt-2">
+          <div class="col-12">
+            <i class="fa fa-lg fa-arrow-circle-up"></i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 hide">
+            <div class="badge badge-sm badge-success">
+              Computer's Turn
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-sm-3 text-center text-sm-left">
+      <div class="badge badge-sm badge-primary">Reaction Time</div>
+    </div>
+    <div class="col-sm-6 text-center text-sm-left mt-4 mt-sm-0">
+      <vue-range-slider id="reactionTime" class="mt-2" v-model="reactionTime" :min="1" :max="10"></vue-range-slider>
+    </div>
+    <div class="col-sm-3 text-center text-sm-right mt-4 mt-sm-0">
+      <button v-if="isGameInProgress" class="btn btn-sm btn-danger" @click="resetGame()">Restart</button>
+      <button v-else class="btn btn-sm btn-success" @click="startGame()">Start</button>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-sm-3 text-center text-sm-left">
+      <div class="badge badge-sm badge-primary">General Action Time</div>
+    </div>
+    <div class="col-sm-6 text-center text-sm-left mt-4 mt-sm-0">
+      <vue-range-slider id="actingTime" class="mt-2" v-model="actingTime" :min="1" :max="10"></vue-range-slider>
     </div>
   </div>
 </section>

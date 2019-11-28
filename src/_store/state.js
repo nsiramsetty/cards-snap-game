@@ -1,4 +1,4 @@
-export const STORAGE_KEY = 'archistar-ai';
+export const STORAGE_KEY = 'westpac-cards-snap-game';
 import {initialState} from './initialState';
 
 let currentState = initialState;

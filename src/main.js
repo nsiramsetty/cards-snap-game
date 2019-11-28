@@ -3,7 +3,7 @@ import Vue from 'vue'
 import router from './_router'
 import store from './_store'
 import {sync} from 'vuex-router-sync'
-// Import AXIO For http If need to make API Calls to Backend or 3rd Party
+// Import AXIOS For http If need to make API Calls to Backend or 3rd Party
 import Axios from 'axios'
 // Vue Form Library for Custom Validations and Slot based messages.
 import VueForm from 'vue-form'
@@ -28,11 +28,6 @@ loadProgressBar(LOADER_CONFIG);
 Vue.config.productionTip = false
 
 import App from './_view/App';
-
-import VueMapbox from "vue-mapbox";
-import Mapbox from "mapbox-gl";
-
-Vue.use(VueMapbox, { mapboxgl: Mapbox });
 
 // Mount Vue JS APP into #app <div>
 

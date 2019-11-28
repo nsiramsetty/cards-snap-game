@@ -1,7 +1,7 @@
 {
-  "name": "archistar-vue-app",
+  "name": "cards-snap-game",
   "version": "1.0.0",
-  "description": "Archistar Vue JS Coding Test",
+  "description": "Westpac - Cards Snap - Game",
   "author": "Naresh Siramsetty",
   "private": true,
   "scripts": {
@@ -47,7 +47,6 @@
     "http-proxy-middleware": "0.19.1",
     "inject-loader": "3.0.1",
     "lodash": "4.17.11",
-    "mapbox-gl": "^1.4.1",
     "moment": "latest",
     "node-sass": "^4.11.0",
     "optimize-css-assets-webpack-plugin": "2.0.0",

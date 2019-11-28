@@ -20,10 +20,6 @@ WORKDIR /app
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
 
-# copy both 'cert' and 'key' (if available)
-COPY /ssl/cert.${DOCKER_ENV}.pem ./cert.pem
-COPY /ssl/key.${DOCKER_ENV}.pem ./key.pem
-
 # install project dependencies
 RUN npm install
 

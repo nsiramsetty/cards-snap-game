@@ -1,5 +1,22 @@
+@import '../../../../../static/styles/variables';
 .home {
-  #map-container{
-    height: calc(100vh - 100px);
+
+  .pointer{
+    cursor: pointer;
+  }
+  .hide{
+    display: block;
+  }
+  .card-image-player, .card-image-deck{
+    width : 100px;
+    height: 150px;
+    border-radius: 10px;
+    position: absolute;
+    display : inline-block;
+    left: 0;
+  }
+  .card-holder-deck, .card-holder-player,.card-holder-computer{
+    position: relative;
+    height: 150px;
   }
 }
