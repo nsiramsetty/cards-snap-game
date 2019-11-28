@@ -48,12 +48,19 @@
         </div>
       </template>
     </div>
-    <div class="col-md-4 text-center mt-2 ">
+    <div class="col-md-4 text-center mt-2 playingCards">
       <div class="card-holder-deck">
-        <img v-if="playingCards[0]" class="card-image-deck" :class="isSnapTime ? 'pointer' :''" :src="getImageSrc(playingCards[0])" style="z-index: 200"
-             @click="doPlayerSnap()" :style="{ left : (2*(playingCards.length+1) + 20) +'px'}"/>
-        <img v-if="playingCards[1]" class="card-image-deck" :src="getImageSrc(playingCards[1])" style="z-index: 100"
-             :style="{ left : (2*(playingCards.length+1)) +'px'}"/>
+        <div v-if="playingCards[0]"
+             class="card-image-deck"
+             :class="getImageClass(playingCards[0])+' '+(isSnapTime ? 'pointer' :'')"
+             style="z-index: 200"
+             @click="doPlayerSnap()"
+             :style="{ left : (2*(playingCards.length+1) + 20) +'px'}" v-html="getImageContent(playingCards[0])"></div>
+        <div v-if="playingCards[1]"
+             class="card-image-deck"
+             :class="getImageClass(playingCards[1])"
+             style="z-index: 100"
+             :style="{ left : (2*(playingCards.length+1)) +'px'}" v-html="getImageContent(playingCards[1])"></div>
         <template v-if="playingCards.length > 2">
           <img v-for="card in playingCards.length-2" class="card-image-deck" src="/static/images/cards/empty.jpg"
           :style="{ left : 2*card +'px'}">
@@ -117,6 +124,13 @@
     </div>
     <div class="col-sm-6 text-center text-sm-left mt-4 mt-sm-0">
       <vue-range-slider id="actingTime" class="mt-2" v-model="actingTime" :min="1" :max="10"></vue-range-slider>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12">
+      <div class="alert alert-info">
+        <p class="small text-center">Designed & Developed by Naresh Siramsetty</p>
+      </div>
     </div>
   </div>
 </section>

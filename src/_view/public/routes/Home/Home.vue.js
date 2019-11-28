@@ -128,6 +128,15 @@ export default {
 
     // Helpers
 
+    getImageClass: function (card) {
+      return "card rank-"+card.value.toString().toLowerCase()+" "+ card.suit;
+    },
+
+    getImageContent : function(card){
+      return '<div class="rank">'+card.value.toString().toUpperCase()+'</div>' +
+        '    <div class="suit">&'+card.suit+';</div>';
+    },
+
     getImageSrc: function (card) {
       return "/static/images/cards/" + card.value + card.suit[0].toUpperCase() + ".jpg";
     },
