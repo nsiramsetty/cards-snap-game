@@ -11,14 +11,16 @@
   <div v-if="!isGameInProgress" class="row">
     <div class="col-12">
       <div class="alert alert-warning">
-        <h2 class="alert-heading">Instructions</h2>
+        <h2 class="alert-heading">Instructions & Assumptions</h2>
         <ul>
-          <li>Default Reaction time for Computer to React in other times (Except when there is a match and time to call
-            SNAP ) is 2 seconds,
-            This 2 seconds reaction time is only when it is computer's turn to place the card, not the reaction time
-            when there is a snap.
+          <li>General Action Time : Time taken for Computer to draw and place the card on pile, It could be an automatic action with 0 delay,
+            but for the purpose of neat transition, I changed to an customizable value with minimum of 1 second, You can configure more time as well.<br>
+            This time has no impact on actual reaction time when it is time to call snap.
           </li>
-          <li>You can configure the Reaction Time for Computer when its time to call SNAP. Th</li>
+          <li>Reaction Time : Time taken for computer to react when it is time to call SNAP.</li>
+          <li> Assumption 1 : After calling the SNAP and taking the pile of cards, Next Turn will be decided based on the previous turn, not on who called it a SNAP.</li>
+          <li> Card Images are CSS Generated To save time from loading images (Took reference from 3rd Party GitHub). Please ignore any mistakes in generated cards.</li>
+          <li>No of cards in player/computer/deck will be shown as cards behind, that will give an idea of remaining cards.</li>
         </ul>
       </div>
     </div>
@@ -129,7 +131,7 @@
   <div class="row mt-5">
     <div class="col-12">
       <div class="alert alert-info">
-        <p class="small text-center">Designed & Developed by Naresh Siramsetty</p>
+        <p class="small text-center"><strong>Designed & Developed by Naresh Siramsetty</strong></p>
       </div>
     </div>
   </div>

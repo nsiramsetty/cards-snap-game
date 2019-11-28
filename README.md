@@ -1,8 +1,8 @@
-# Archistar AI
+# Westpac
 
-> Archistar AI - Vue JS - Coding TEST UI
+> Westpack - Coding TEST UI
 
-> For Working Deployed Demo , Please visit : https://tender-wright-997df1.netlify.com/
+> For Working Deployed Demo , Please visit : https://agitated-einstein-6271ce.netlify.com/
 
 ## Build Setup
 
@@ -26,7 +26,6 @@ npm run unit
 ## Notes
 
  * Took one of my previous project code as quick starter.
- * testBlob.json is read using "require"
- * State is maintained for all filters except range filters, i.e If you close and open the browser again, previous filters will be already applied.
- * Deployed into NetLify
+ * Used 3rd Party CSS to generate card images.
+ * Deployed into NetLify.
 
